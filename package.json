@@ -31,11 +31,15 @@
     "generate": "pnpm typed-openapi https://raw.githubusercontent.com/alpacahq/alpaca-docs/refs/heads/master/oas/trading/openapi.yaml -o src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
   },
   "keywords": [
-    "oanda",
+    "alpaca",
     "trading",
     "api",
     "typescript",
-    "forex"
+    "stocks"
+  ],
+  "files": [
+    "dist/",
+    "README.md"
   ],
   "author": "Takin Profit LLC <takinprofit@gmail.com>",
   "license": "MIT",
