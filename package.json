@@ -1,6 +1,6 @@
 {
   "name": "@takinprofit/alpaca-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Type-safe Alpaca REST API client for TypeScript and Node.js",
   "type": "module",
   "main": "./dist/index.cjs",
