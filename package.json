@@ -1,0 +1,50 @@
+{
+  "name": "@takinprofit/alpaca-ts",
+  "version": "1.0.0",
+  "description": "Type-safe Alpaca REST API client for TypeScript and Node.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/Takin-Profit/Alpaca-TS#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Takin-Profit/Alpaca-TS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Takin-Profit/Alpaca-TS/issues"
+  },
+  "exports": {
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "npm-run-all generate build:pkg",
+    "build:pkg": "pkgroll",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "pnpm typed-openapi https://raw.githubusercontent.com/alpacahq/alpaca-docs/refs/heads/master/oas/trading/openapi.yaml -o src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
+  },
+  "keywords": [
+    "oanda",
+    "trading",
+    "api",
+    "typescript",
+    "forex"
+  ],
+  "author": "Takin Profit LLC <takinprofit@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typed-openapi": "^0.10.1",
+    "@biomejs/biome": "1.9.4",
+    "npm-run-all": "^4.1.5",
+    "pkgroll": "^2.5.1",
+    "typescript": "^5.6.3"
+  }
+}
