@@ -1,751 +1,1965 @@
-export namespace Schemas {
-	// <Schemas>
-	export type AccountStatus =
-		| "ONBOARDING"
-		| "SUBMISSION_FAILED"
-		| "SUBMITTED"
-		| "ACCOUNT_UPDATED"
-		| "APPROVAL_PENDING"
-		| "ACTIVE"
-		| "REJECTED"
-	export type Account = {
-		id: string
-		account_number?: string | undefined
-		status: AccountStatus
-		currency?: string | undefined
-		cash?: string | undefined
-		portfolio_value?: string | undefined
-		pattern_day_trader?: boolean | undefined
-		trade_suspended_by_user?: boolean | undefined
-		trading_blocked?: boolean | undefined
-		transfers_blocked?: boolean | undefined
-		account_blocked?: boolean | undefined
-		created_at?: string | undefined
-		shorting_enabled?: boolean | undefined
-		long_market_value?: string | undefined
-		short_market_value?: string | undefined
-		equity?: string | undefined
-		last_equity?: string | undefined
-		multiplier?: string | undefined
-		buying_power?: string | undefined
-		initial_margin?: string | undefined
-		maintenance_margin?: string | undefined
-		sma?: string | undefined
-		daytrade_count?: number | undefined
-		last_maintenance_margin?: string | undefined
-		daytrading_buying_power?: string | undefined
-		regt_buying_power?: string | undefined
-	}
-	export type AccountConfigurations = Partial<{
-		dtbp_check: "both" | "entry" | "exit"
-		trade_confirm_email: string
-		suspend_trade: boolean
-		no_shorting: boolean
-		fractional_trading: boolean
-		max_margin_multiplier: string
-		pdt_check: string
-	}>
-	export type ActivityType =
-		| "FILL"
-		| "TRANS"
-		| "MISC"
-		| "ACATC"
-		| "ACATS"
-		| "CSD"
-		| "CSW"
-		| "DIV"
-		| "DIVCGL"
-		| "DIVCGS"
-		| "DIVFEE"
-		| "DIVFT"
-		| "DIVNRA"
-		| "DIVROC"
-		| "DIVTW"
-		| "DIVTXEX"
-		| "INT"
-		| "INTNRA"
-		| "INTTW"
-		| "JNL"
-		| "JNLC"
-		| "JNLS"
-		| "MA"
-		| "NC"
-		| "OPASN"
-		| "OPEXP"
-		| "OPXRC"
-		| "PTC"
-		| "PTR"
-		| "REORG"
-		| "SC"
-		| "SSO"
-		| "SSP"
-		| "CFEE"
-		| "FEE"
-	export type OrderStatus =
-		| "new"
-		| "partially_filled"
-		| "filled"
-		| "done_for_day"
-		| "canceled"
-		| "expired"
-		| "replaced"
-		| "pending_cancel"
-		| "pending_replace"
-		| "accepted"
-		| "pending_new"
-		| "accepted_for_bidding"
-		| "stopped"
-		| "rejected"
-		| "suspended"
-		| "calculated"
-	export type TradingActivities = Partial<{
-		activity_type: ActivityType
-		id: string
-		cum_qty: string
-		leaves_qty: string
-		price: string
-		qty: string
-		side: string
-		symbol: string
-		transaction_time: string
-		order_id: string
-		type: "fill" | "partial_fill"
-		order_status: OrderStatus
-	}>
-	export type NonTradeActivities = Partial<{
-		activity_type: ActivityType
-		id: string
-		date: string
-		net_amount: string
-		symbol: string
-		qty: string
-		per_share_amount: string
-	}>
-	export type AssetClass = "us_equity" | "crypto"
-	export type OrderClass = "simple" | "bracket" | "oco" | "oto" | ""
-	export type OrderType =
-		| "market"
-		| "limit"
-		| "stop"
-		| "stop_limit"
-		| "trailing_stop"
-	export type OrderSide = "buy" | "sell"
-	export type TimeInForce = "day" | "gtc" | "opg" | "cls" | "ioc" | "fok"
-	export type Order = {
-		id?: string | undefined
-		client_order_id?: string | undefined
-		created_at?: string | undefined
-		updated_at?: string | null | undefined
-		submitted_at?: string | null | undefined
-		filled_at?: string | null | undefined
-		expired_at?: string | null | undefined
-		canceled_at?: string | null | undefined
-		failed_at?: string | null | undefined
-		replaced_at?: string | null | undefined
-		replaced_by?: string | null | undefined
-		replaces?: string | null | undefined
-		asset_id?: string | undefined
-		symbol: string
-		asset_class?: AssetClass | undefined
-		notional: string | null
-		qty: string | null
-		filled_qty?: string | undefined
-		filled_avg_price?: string | null | undefined
-		order_class?: OrderClass | undefined
-		order_type?: string | undefined
-		type: OrderType
-		side: OrderSide
-		time_in_force: TimeInForce
-		limit_price?: string | null | undefined
-		stop_price?: string | null | undefined
-		status?: OrderStatus | undefined
-		extended_hours?: boolean | undefined
-		legs?: Array<Order> | null | undefined
-		trail_percent?: string | undefined
-		trail_price?: string | undefined
-		hwm?: string | undefined
-	}
-	export type Exchange =
-		| "AMEX"
-		| "ARCA"
-		| "BATS"
-		| "NYSE"
-		| "NASDAQ"
-		| "NYSEARCA"
-		| "OTC"
-	export type Assets = {
-		id: string
-		class: AssetClass
-		exchange: Exchange
-		symbol: string
-		name: string
-		status: "active" | "inactive"
-		tradable: boolean
-		marginable: boolean
-		shortable: boolean
-		easy_to_borrow: boolean
-		fractionable: boolean
-	}
-	export type Position = {
-		asset_id: string
-		symbol: string
-		exchange: Exchange
-		asset_class: AssetClass
-		avg_entry_price: string
-		qty: string
-		qty_available?: string | undefined
-		side: string
-		market_value: string
-		cost_basis: string
-		unrealized_pl: string
-		unrealized_plpc: string
-		unrealized_intraday_pl: string
-		unrealized_intraday_plpc: string
-		current_price: string
-		lastday_price: string
-		change_today: string
-		asset_marginable: boolean
-	}
-	export type Watchlist = {
-		id: string
-		account_id: string
-		created_at: string
-		updated_at: string
-		name: string
-		assets?: Array<Assets> | undefined
-	}
-	export type Calendar = {
-		date: string
-		open: string
-		close: string
-		session_open: string
-		session_close: string
-	}
-	export type Clock = Partial<{
-		timestamp: string
-		is_open: boolean
-		next_open: string
-		next_close: string
-	}>
-	export type PortfolioHistory = Partial<{
-		timestamp: Array<number>
-		equity: Array<number>
-		profit_loss: Array<number>
-		profit_loss_pct: Array<number>
-		base_value: number
-		timeframe: string
-	}>
-	export type CanceledOrderResponse = Partial<{ id: string; status: number }>
-	export type PatchOrderRequest = Partial<{
-		qty: string
-		time_in_force: TimeInForce
-		limit_price: string
-		stop_price: string
-		trail: string
-		client_order_id: string
-	}>
-	export type PositionClosedReponse = {
-		symbol: string
-		status: string
-		body?: Order | undefined
-	}
-	export type UpdateWatchlistRequest = {
-		name: string
-		symbols?: Array<string | null> | undefined
-	}
-	export type AddAssetToWatchlistRequest = Partial<{ symbol: string }>
-
-	// </Schemas>
-}
-
-export namespace Endpoints {
-	// <Endpoints>
-
-	export type get_GetAccount = {
-		method: "GET"
-		path: "/v2/account"
-		requestFormat: "json"
-		parameters: never
-		response: Schemas.Account
-	}
-	export type post_PostOrder = {
-		method: "POST"
-		path: "/v2/orders"
-		requestFormat: "json"
-		parameters: {
-			body: Schemas.Order
-		}
-		response: Schemas.Order
-	}
-	export type get_GetAllOrders = {
-		method: "GET"
-		path: "/v2/orders"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				status: "open" | "closed" | "all"
-				limit: number
-				after: string
-				until: string
-				direction: "asc" | "desc"
-				nested: boolean
-				symbols: string
-			}>
-		}
-		response: Array<Schemas.Order>
-	}
-	export type delete_DeleteAllOrders = {
-		method: "DELETE"
-		path: "/v2/orders"
-		requestFormat: "json"
-		parameters: never
-		response: Array<Schemas.CanceledOrderResponse>
-	}
-	export type get_GetOrderByOrderID = {
-		method: "GET"
-		path: "/v2/orders/{order_id}"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ nested: boolean }>
-			path: { order_id: string }
-		}
-		response: Schemas.Order
-	}
-	export type patch_PatchOrderByOrderId = {
-		method: "PATCH"
-		path: "/v2/orders/{order_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { order_id: string }
-
-			body: Schemas.PatchOrderRequest
-		}
-		response: Schemas.Order
-	}
-	export type delete_DeleteOrderByOrderID = {
-		method: "DELETE"
-		path: "/v2/orders/{order_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { order_id: string }
-		}
-		response: unknown
-	}
-	export type get_GetAllOpenPositions = {
-		method: "GET"
-		path: "/v2/positions"
-		requestFormat: "json"
-		parameters: never
-		response: Array<Schemas.Position>
-	}
-	export type delete_DeleteAllOpenPositions = {
-		method: "DELETE"
-		path: "/v2/positions"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ cancel_orders: boolean }>
-		}
-		response: Array<Schemas.PositionClosedReponse>
-	}
-	export type get_GetOpenPosition = {
-		method: "GET"
-		path: "/v2/positions/{symbol_or_asset_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { symbol_or_asset_id: string }
-		}
-		response: Schemas.Position
-	}
-	export type delete_DeleteOpenPosition = {
-		method: "DELETE"
-		path: "/v2/positions/{symbol_or_asset_id}"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ qty: number; percentage: number }>
-			path: { symbol_or_asset_id: string }
-		}
-		response: Schemas.Order
-	}
-	export type get_GetAccountPortfolioHistory = {
-		method: "GET"
-		path: "/v2/account/portfolio/history"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				period: string
-				timeframe: string
-				date_end: string
-				extended_hours: string
-			}>
-		}
-		response: Schemas.PortfolioHistory
-	}
-	export type get_GetWatchlists = {
-		method: "GET"
-		path: "/v2/watchlists"
-		requestFormat: "json"
-		parameters: never
-		response: Array<Schemas.Watchlist>
-	}
-	export type post_PostWatchlist = {
-		method: "POST"
-		path: "/v2/watchlists"
-		requestFormat: "json"
-		parameters: {
-			body: Schemas.UpdateWatchlistRequest
-		}
-		response: Schemas.Watchlist
-	}
-	export type get_GetWatchlistById = {
-		method: "GET"
-		path: "/v2/watchlists/{watchlist_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { watchlist_id: string }
-		}
-		response: Schemas.Watchlist
-	}
-	export type put_UpdateWatchlistById = {
-		method: "PUT"
-		path: "/v2/watchlists/{watchlist_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { watchlist_id: string }
-
-			body: Schemas.UpdateWatchlistRequest
-		}
-		response: Schemas.Watchlist
-	}
-	export type post_AddAssetToWatchlist = {
-		method: "POST"
-		path: "/v2/watchlists/{watchlist_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { watchlist_id: string }
-
-			body: Schemas.AddAssetToWatchlistRequest
-		}
-		response: Schemas.Watchlist
-	}
-	export type delete_DeleteWatchlistById = {
-		method: "DELETE"
-		path: "/v2/watchlists/{watchlist_id}"
-		requestFormat: "json"
-		parameters: {
-			path: { watchlist_id: string }
-		}
-		response: unknown
-	}
-	export type get_GetWatchlistByName = {
-		method: "GET"
-		path: "/v2/watchlists:by_name"
-		requestFormat: "json"
-		parameters: {
-			query: { name: string }
-		}
-		response: Schemas.Watchlist
-	}
-	export type put_UpdateWatchlistByName = {
-		method: "PUT"
-		path: "/v2/watchlists:by_name"
-		requestFormat: "json"
-		parameters: {
-			query: { name: string }
-
-			body: Schemas.UpdateWatchlistRequest
-		}
-		response: Schemas.Watchlist
-	}
-	export type post_AddAssetToWatchlistByName = {
-		method: "POST"
-		path: "/v2/watchlists:by_name"
-		requestFormat: "json"
-		parameters: {
-			query: { name: string }
-
-			body: Schemas.AddAssetToWatchlistRequest
-		}
-		response: Schemas.Watchlist
-	}
-	export type delete_DeleteWatchlistByName = {
-		method: "DELETE"
-		path: "/v2/watchlists:by_name"
-		requestFormat: "json"
-		parameters: {
-			query: { name: string }
-		}
-		response: unknown
-	}
-	export type delete_RemoveAssetFromWatchlist = {
-		method: "DELETE"
-		path: "/v2/watchlists/{watchlist_id}/{symbol}"
-		requestFormat: "json"
-		parameters: {
-			path: { watchlist_id: string; symbol: string }
-		}
-		response: Schemas.Watchlist
-	}
-	export type get_GetAccountConfig = {
-		method: "GET"
-		path: "/v2/account/configurations"
-		requestFormat: "json"
-		parameters: never
-		response: Schemas.AccountConfigurations
-	}
-	export type patch_PatchAccountConfig = {
-		method: "PATCH"
-		path: "/v2/account/configurations"
-		requestFormat: "json"
-		parameters: {
-			body: Schemas.AccountConfigurations
-		}
-		response: Schemas.AccountConfigurations
-	}
-	export type get_GetAccountActivities = {
-		method: "GET"
-		path: "/v2/account/activities"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				date: string
-				until: string
-				after: string
-				direction: "asc" | "desc"
-				page_size: number
-				page_token: string
-				activity_types: string
-			}>
-		}
-		response: Array<
-			| Schemas.TradingActivities
-			| Schemas.NonTradeActivities
-			| Array<Schemas.TradingActivities | Schemas.NonTradeActivities>
-		>
-	}
-	export type get_GetAccountActivitiesByActivityType = {
-		method: "GET"
-		path: "/v2/account/activities/{activity_type}"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				date: string
-				until: string
-				after: string
-				direction: "asc" | "desc"
-				page_size: number
-				page_token: string
-			}>
-			path: { activity_type: string }
-		}
-		response: Array<Schemas.TradingActivities | Schemas.NonTradeActivities>
-	}
-	export type get_GetCalendar = {
-		method: "GET"
-		path: "/v2/calendar"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ start: string; end: string }>
-		}
-		response: Array<Schemas.Calendar>
-	}
-	export type get_GetClock = {
-		method: "GET"
-		path: "/v2/clock"
-		requestFormat: "json"
-		parameters: never
-		response: Schemas.Clock
-	}
-
-	// </Endpoints>
-}
-
-// <EndpointByMethod>
-export type EndpointByMethod = {
-	get: {
-		"/v2/account": Endpoints.get_GetAccount
-		"/v2/orders": Endpoints.get_GetAllOrders
-		"/v2/orders/{order_id}": Endpoints.get_GetOrderByOrderID
-		"/v2/positions": Endpoints.get_GetAllOpenPositions
-		"/v2/positions/{symbol_or_asset_id}": Endpoints.get_GetOpenPosition
-		"/v2/account/portfolio/history": Endpoints.get_GetAccountPortfolioHistory
-		"/v2/watchlists": Endpoints.get_GetWatchlists
-		"/v2/watchlists/{watchlist_id}": Endpoints.get_GetWatchlistById
-		"/v2/watchlists:by_name": Endpoints.get_GetWatchlistByName
-		"/v2/account/configurations": Endpoints.get_GetAccountConfig
-		"/v2/account/activities": Endpoints.get_GetAccountActivities
-		"/v2/account/activities/{activity_type}": Endpoints.get_GetAccountActivitiesByActivityType
-		"/v2/calendar": Endpoints.get_GetCalendar
-		"/v2/clock": Endpoints.get_GetClock
-	}
-	post: {
-		"/v2/orders": Endpoints.post_PostOrder
-		"/v2/watchlists": Endpoints.post_PostWatchlist
-		"/v2/watchlists/{watchlist_id}": Endpoints.post_AddAssetToWatchlist
-		"/v2/watchlists:by_name": Endpoints.post_AddAssetToWatchlistByName
-	}
-	delete: {
-		"/v2/orders": Endpoints.delete_DeleteAllOrders
-		"/v2/orders/{order_id}": Endpoints.delete_DeleteOrderByOrderID
-		"/v2/positions": Endpoints.delete_DeleteAllOpenPositions
-		"/v2/positions/{symbol_or_asset_id}": Endpoints.delete_DeleteOpenPosition
-		"/v2/watchlists/{watchlist_id}": Endpoints.delete_DeleteWatchlistById
-		"/v2/watchlists:by_name": Endpoints.delete_DeleteWatchlistByName
-		"/v2/watchlists/{watchlist_id}/{symbol}": Endpoints.delete_RemoveAssetFromWatchlist
-	}
-	patch: {
-		"/v2/orders/{order_id}": Endpoints.patch_PatchOrderByOrderId
-		"/v2/account/configurations": Endpoints.patch_PatchAccountConfig
-	}
-	put: {
-		"/v2/watchlists/{watchlist_id}": Endpoints.put_UpdateWatchlistById
-		"/v2/watchlists:by_name": Endpoints.put_UpdateWatchlistByName
-	}
-}
-
-// </EndpointByMethod>
-
-// <EndpointByMethod.Shorthands>
-export type GetEndpoints = EndpointByMethod["get"]
-export type PostEndpoints = EndpointByMethod["post"]
-export type DeleteEndpoints = EndpointByMethod["delete"]
-export type PatchEndpoints = EndpointByMethod["patch"]
-export type PutEndpoints = EndpointByMethod["put"]
-export type AllEndpoints = EndpointByMethod[keyof EndpointByMethod]
-// </EndpointByMethod.Shorthands>
-
-// <ApiClientTypes>
-export type EndpointParameters = {
-	body?: unknown
-	query?: Record<string, unknown>
-	header?: Record<string, unknown>
-	path?: Record<string, unknown>
-}
-
-export type MutationMethod = "post" | "put" | "patch" | "delete"
-export type Method = "get" | "head" | "options" | MutationMethod
-
-type RequestFormat = "json" | "form-data" | "form-url" | "binary" | "text"
-
-export type DefaultEndpoint = {
-	parameters?: EndpointParameters | undefined
-	response: unknown
-}
-
-export type Endpoint<TConfig extends DefaultEndpoint = DefaultEndpoint> = {
-	operationId: string
-	method: Method
-	path: string
-	requestFormat: RequestFormat
-	parameters?: TConfig["parameters"]
-	meta: {
-		alias: string
-		hasParameters: boolean
-		areParametersRequired: boolean
-	}
-	response: TConfig["response"]
-}
-
-type Fetcher = (
-	method: Method,
-	url: string,
-	parameters?: EndpointParameters | undefined
-) => Promise<Endpoint["response"]>
-
-type RequiredKeys<T> = {
-	[P in keyof T]-?: undefined extends T[P] ? never : P
-}[keyof T]
-
-type MaybeOptionalArg<T> = RequiredKeys<T> extends never
-	? [config?: T]
-	: [config: T]
-
-// </ApiClientTypes>
-
-// <ApiClient>
-export class ApiClient {
-	baseUrl = ""
-
-	constructor(public fetcher: Fetcher) {}
-
-	setBaseUrl(baseUrl: string) {
-		this.baseUrl = baseUrl
-		return this
-	}
-
-	// <ApiClient.get>
-	get<Path extends keyof GetEndpoints, TEndpoint extends GetEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("get", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.get>
-
-	// <ApiClient.post>
-	post<Path extends keyof PostEndpoints, TEndpoint extends PostEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("post", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.post>
-
-	// <ApiClient.delete>
-	delete<
-		Path extends keyof DeleteEndpoints,
-		TEndpoint extends DeleteEndpoints[Path],
-	>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("delete", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.delete>
-
-	// <ApiClient.patch>
-	patch<
-		Path extends keyof PatchEndpoints,
-		TEndpoint extends PatchEndpoints[Path],
-	>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("patch", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.patch>
-
-	// <ApiClient.put>
-	put<Path extends keyof PutEndpoints, TEndpoint extends PutEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("put", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.put>
-}
-
-export function createApiClient(fetcher: Fetcher, baseUrl?: string) {
-	return new ApiClient(fetcher).setBaseUrl(baseUrl ?? "")
-}
-
 /**
- Example usage:
- const api = createApiClient((method, url, params) =>
-   fetch(url, { method, body: JSON.stringify(params) }).then((res) => res.json()),
- );
- api.get("/users").then((users) => console.log(users));
- api.post("/users", { body: { name: "John" } }).then((user) => console.log(user));
- api.put("/users/:id", { path: { id: 1 }, body: { name: "John" } }).then((user) => console.log(user));
-*/
+ * This file was auto-generated by openapi-typescript.
+ * Do not make direct changes to the file.
+ */
 
-// </ApiClient
+export interface paths {
+	"/v2/account": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get account
+		 * @description Returns the account associated with the API key.
+		 */
+		get: operations["getAccount"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/orders": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * All Orders
+		 * @description Retrieves a list of orders for the account, filtered by the supplied query parameters.
+		 */
+		get: operations["getAllOrders"]
+		put?: never
+		/**
+		 * Order
+		 * @description Places a new order for the given account. An order request may be rejected if the account is not authorized for trading, or if the tradable balance is insufficient to fill the order..
+		 */
+		post: operations["postOrder"]
+		/**
+		 * All Orders
+		 * @description Attempts to cancel all open orders. A response will be provided for each order that is attempted to be cancelled. If an order is no longer cancelable, the server will respond with status 500 and reject the request.
+		 */
+		delete: operations["deleteAllOrders"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/orders/{order_id}": {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description order id */
+				order_id: string
+			}
+			cookie?: never
+		}
+		/**
+		 * Order by Order ID
+		 * @description Retrieves a single order for the given order_id.
+		 */
+		get: operations["getOrderByOrderID"]
+		put?: never
+		post?: never
+		/**
+		 * Order by Order ID
+		 * @description Attempts to cancel an Open Order. If the order is no longer cancelable, the request will be rejected with status 422; otherwise accepted with return status 204.
+		 */
+		delete: operations["deleteOrderByOrderID"]
+		options?: never
+		head?: never
+		/**
+		 * Order
+		 * @description Replaces a single order with updated parameters. Each parameter overrides the corresponding attribute of the existing order. The other attributes remain the same as the existing order.
+		 *
+		 *     A success return code from a replaced order does NOT guarantee the existing open order has been replaced. If the existing open order is filled before the replacing (new) order reaches the execution venue, the replacing (new) order is rejected, and these events are sent in the trade_updates stream channel.
+		 *
+		 *     While an order is being replaced, buying power is reduced by the larger of the two orders that have been placed (the old order being replaced, and the newly placed order to replace it). If you are replacing a buy entry order with a higher limit price than the original order, the buying power is calculated based on the newly placed order. If you are replacing it with a lower limit price, the buying power is calculated based on the old order.
+		 *
+		 */
+		patch: operations["patchOrderByOrderId"]
+		trace?: never
+	}
+	"/v2/positions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * All Open Positions
+		 * @description The positions API provides information about an account’s current open positions. The response will include information such as cost basis, shares traded, and market value, which will be updated live as price information is updated. Once a position is closed, it will no longer be queryable through this API
+		 *
+		 *     Retrieves a list of the account’s open positions
+		 */
+		get: operations["getAllOpenPositions"]
+		put?: never
+		post?: never
+		/**
+		 * All Positions
+		 * @description Closes (liquidates) all of the account’s open long and short positions. A response will be provided for each order that is attempted to be cancelled. If an order is no longer cancelable, the server will respond with status 500 and reject the request.
+		 */
+		delete: operations["deleteAllOpenPositions"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/positions/{symbol_or_asset_id}": {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description symbol or assetId */
+				symbol_or_asset_id: string
+			}
+			cookie?: never
+		}
+		/**
+		 * Open Position
+		 * @description Retrieves the account’s open position for the given symbol or assetId.
+		 */
+		get: operations["getOpenPosition"]
+		put?: never
+		post?: never
+		/**
+		 * Position
+		 * @description Closes (liquidates) the account’s open position for the given symbol. Works for both long and short positions.
+		 */
+		delete: operations["deleteOpenPosition"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/account/portfolio/history": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Account Portfolio History
+		 * @description Returns timeseries data about equity and profit/loss (P/L) of the account in requested timespan.
+		 */
+		get: operations["getAccountPortfolioHistory"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/watchlists": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Watchlists
+		 * @description Returns the list of watchlists registered under the account.
+		 */
+		get: operations["getWatchlists"]
+		put?: never
+		/**
+		 * Watchlist
+		 * @description Create a new watchlist with initial set of assets.
+		 */
+		post: operations["postWatchlist"]
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/watchlists/{watchlist_id}": {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description watchlist id */
+				watchlist_id: string
+			}
+			cookie?: never
+		}
+		/**
+		 * Get Watchlist by ID
+		 * @description Returns a watchlist identified by the ID.
+		 */
+		get: operations["getWatchlistById"]
+		/**
+		 * Update Watchlist By Id
+		 * @description Update the name and/or content of watchlist
+		 */
+		put: operations["updateWatchlistById"]
+		/**
+		 * Add Asset to Watchlist
+		 * @description Append an asset for the symbol to the end of watchlist asset list
+		 */
+		post: operations["addAssetToWatchlist"]
+		/**
+		 * Delete Watchlist By Id
+		 * @description Delete a watchlist. This is a permanent deletion.
+		 */
+		delete: operations["deleteWatchlistById"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/watchlists:by_name": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Watchlist by Name
+		 * @description Returns a watchlist by name
+		 */
+		get: operations["getWatchlistByName"]
+		/**
+		 * Update Watchlist By Name
+		 * @description Update the name and/or content of watchlist
+		 */
+		put: operations["updateWatchlistByName"]
+		/**
+		 * Add Asset to Watchlist By Name
+		 * @description Append an asset for the symbol to the end of watchlist asset list
+		 */
+		post: operations["addAssetToWatchlistByName"]
+		/**
+		 * Delete Watchlist By Name
+		 * @description Delete a watchlist. This is a permanent deletion.
+		 */
+		delete: operations["deleteWatchlistByName"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/watchlists/{watchlist_id}/{symbol}": {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description Watchlist ID */
+				watchlist_id: string
+				/** @description symbol name to remove from the watchlist content */
+				symbol: string
+			}
+			cookie?: never
+		}
+		get?: never
+		put?: never
+		post?: never
+		/**
+		 * Symbol from Watchlist
+		 * @description Delete one entry for an asset by symbol name
+		 */
+		delete: operations["removeAssetFromWatchlist"]
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/account/configurations": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Account Configurations
+		 * @description gets the current account configuration values
+		 */
+		get: operations["getAccountConfig"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		/**
+		 * Account Configurations
+		 * @description Updates and returns the current account configuration values
+		 */
+		patch: operations["patchAccountConfig"]
+		trace?: never
+	}
+	"/v2/account/activities": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get account activities of one type
+		 * @description Returns account activity entries for many types of activities.
+		 */
+		get: operations["getAccountActivities"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/account/activities/{activity_type}": {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description The activity type you want to view entries for. A list of valid activity types can be found at the bottom of this page. */
+				activity_type: string
+			}
+			cookie?: never
+		}
+		/**
+		 * Get account activities of one type
+		 * @description Returns account activity entries for a specific type of activity.
+		 */
+		get: operations["getAccountActivitiesByActivityType"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/calendar": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Market Calendar info
+		 * @description Returns the market calendar.
+		 */
+		get: operations["getCalendar"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/v2/clock": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Market Clock info
+		 * @description The clock API serves the current market timestamp, whether or not the market is currently open, as well as the times of the next market open and close.
+		 *
+		 *     Returns the market clock.
+		 */
+		get: operations["getClock"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+}
+export type webhooks = Record<string, never>
+export interface components {
+	schemas: {
+		/**
+		 * Account
+		 * @description The account API serves important information related to an account, including account status, funds available for trade, funds available for withdrawal, and various flags relevant to an account’s ability to trade. An account maybe be blocked for just for trades (trades_blocked flag) or for both trades and transfers (account_blocked flag) if Alpaca identifies the account to engaging in any suspicious activity. Also, in accordance with FINRA’s pattern day trading rule, an account may be flagged for pattern day trading (pattern_day_trader flag), which would inhibit an account from placing any further day-trades. Please note that cryptocurrencies are not eligible assets to be used as collateral for margin accounts and will require the asset be traded using cash only.
+		 *
+		 */
+		Account: {
+			/**
+			 * Format: uuid
+			 * @description Account Id.
+			 *
+			 */
+			id: string
+			/** @description Account number. */
+			account_number?: string
+			status: components["schemas"]["AccountStatus"]
+			/**
+			 * @description USD
+			 *
+			 * @example USD
+			 */
+			currency?: string
+			/** @description Cash Balance
+			 *      */
+			cash?: string
+			/** @description Total value of cash + holding positions (This field is deprecated. It is equivalent to the equity field.) */
+			portfolio_value?: string
+			/** @description Whether or not the account has been flagged as a pattern day trader */
+			pattern_day_trader?: boolean
+			/** @description User setting. If true, the account is not allowed to place orders. */
+			trade_suspended_by_user?: boolean
+			/** @description If true, the account is not allowed to place orders.
+			 *      */
+			trading_blocked?: boolean
+			/** @description If true, the account is not allowed to request money transfers. */
+			transfers_blocked?: boolean
+			/** @description If true, the account activity by user is prohibited. */
+			account_blocked?: boolean
+			/**
+			 * Format: date-time
+			 * @description Timestamp this account was created at
+			 *
+			 */
+			created_at?: string
+			/** @description Flag to denote whether or not the account is permitted to short */
+			shorting_enabled?: boolean
+			/** @description Real-time MtM value of all long positions held in the account
+			 *      */
+			long_market_value?: string
+			/** @description Real-time MtM value of all short positions held in the account */
+			short_market_value?: string
+			/** @description Cash + long_market_value + short_market_value */
+			equity?: string
+			/** @description Equity as of previous trading day at 16:00:00 ET */
+			last_equity?: string
+			/** @description Buying power multiplier that represents account margin classification; valid values 1 (standard limited margin account with 1x buying power), 2 (reg T margin account with 2x intraday and overnight buying power; this is the default for all non-PDT accounts with $2,000 or more equity), 4 (PDT account with 4x intraday buying power and 2x reg T overnight buying power) */
+			multiplier?: string
+			/** @description Current available $ buying power; If multiplier = 4, this is your daytrade buying power which is calculated as (last_equity - (last) maintenance_margin) * 4; If multiplier = 2, buying_power = max(equity – initial_margin,0) * 2; If multiplier = 1, buying_power = cash */
+			buying_power?: string
+			/** @description Reg T initial margin requirement (continuously updated value) */
+			initial_margin?: string
+			/** @description Maintenance margin requirement (continuously updated value) */
+			maintenance_margin?: string
+			/** @description Value of special memorandum account (will be used at a later date to provide additional buying_power) */
+			sma?: string
+			/** @description The current number of daytrades that have been made in the last 5 trading days (inclusive of today) */
+			daytrade_count?: number
+			/** @description Your maintenance margin requirement on the previous trading day */
+			last_maintenance_margin?: string
+			/** @description Your buying power for day trades (continuously updated value) */
+			daytrading_buying_power?: string
+			/** @description Your buying power under Regulation T (your excess equity - equity minus margin value - times your margin multiplier)
+			 *      */
+			regt_buying_power?: string
+		}
+		/**
+		 * AccountStatus
+		 * @description An enum representing the various possible account status values.
+		 *
+		 *     Most likely, the account status is ACTIVE unless there is any problem. The account status may get in ACCOUNT_UPDATED when personal information is being updated from the dashboard, in which case you may not be allowed trading for a short period of time until the change is approved.
+		 *
+		 *     - ONBOARDING
+		 *       The account is onboarding.
+		 *     - SUBMISSION_FAILED
+		 *       The account application submission failed for some reason.
+		 *     - SUBMITTED
+		 *       The account application has been submitted for review.
+		 *     - ACCOUNT_UPDATED
+		 *       The account information is being updated.
+		 *     - APPROVAL_PENDING
+		 *       The final account approval is pending.
+		 *     - ACTIVE
+		 *       The account is active for trading.
+		 *     - REJECTED
+		 *       The account application has been rejected.
+		 * @example ACTIVE
+		 * @enum {string}
+		 */
+		AccountStatus:
+			| "ONBOARDING"
+			| "SUBMISSION_FAILED"
+			| "SUBMITTED"
+			| "ACCOUNT_UPDATED"
+			| "APPROVAL_PENDING"
+			| "ACTIVE"
+			| "REJECTED"
+		/**
+		 * AccountConfigurations
+		 * @description The account configuration API provides custom configurations about your trading account settings. These configurations control various allow you to modify settings to suit your trading needs.
+		 */
+		AccountConfigurations: {
+			/**
+			 * @description both, entry, or exit. Controls Day Trading Margin Call (DTMC) checks.
+			 * @enum {string}
+			 */
+			dtbp_check?: "both" | "entry" | "exit"
+			/** @description all or none. If none, emails for order fills are not sent. */
+			trade_confirm_email?: string
+			/** @description If true, new orders are blocked. */
+			suspend_trade?: boolean
+			/** @description If true, account becomes long-only mode. */
+			no_shorting?: boolean
+			/** @description If true, account is able to participate in fractional trading */
+			fractional_trading?: boolean
+			/** @description Can be "1" or "2" */
+			max_margin_multiplier?: string
+			/** @example entry */
+			pdt_check?: string
+		}
+		/** AccountTradingActivities */
+		TradingActivities: {
+			activity_type?: components["schemas"]["ActivityType"]
+			/** @description An id for the activity. Always in “::” format. Can be sent as page_token in requests to facilitate the paging of results. */
+			id?: string
+			/** @description The cumulative quantity of shares involved in the execution. */
+			cum_qty?: string
+			/** @description For partially_filled orders, the quantity of shares that are left to be filled.
+			 *      */
+			leaves_qty?: string
+			/** @description The per-share price that the trade was executed at. */
+			price?: string
+			/** @description The number of shares involved in the trade execution. */
+			qty?: string
+			/** @description buy or sell */
+			side?: string
+			/**
+			 * @description The symbol of the security being traded.
+			 * @example AAPL
+			 */
+			symbol?: string
+			/**
+			 * Format: date-time
+			 * @description The time at which the execution occurred.
+			 */
+			transaction_time?: string
+			/**
+			 * Format: uuid
+			 * @description The id for the order that filled.
+			 */
+			order_id?: string
+			/**
+			 * @description fill or partial_fill
+			 * @example fill
+			 * @enum {string}
+			 */
+			type?: "fill" | "partial_fill"
+			order_status?: components["schemas"]["OrderStatus"]
+		}
+		/** AccountNonTradeActivities */
+		NonTradeActivities: {
+			activity_type?: components["schemas"]["ActivityType"]
+			/** @description An ID for the activity, always in “::” format. Can be sent as page_token in requests to facilitate the paging of results. */
+			id?: string
+			/**
+			 * Format: date-time
+			 * @description The date on which the activity occurred or on which the transaction associated with the activity settled.
+			 */
+			date?: string
+			/** @description The net amount of money (positive or negative) associated with the activity. */
+			net_amount?: string
+			/** @description The symbol of the security involved with the activity. Not present for all activity types. */
+			symbol?: string
+			/** @description For dividend activities, the number of shares that contributed to the payment. Not present for other activity types.
+			 *      */
+			qty?: string
+			/** @description For dividend activities, the average amount paid per share. Not present for other activity types. */
+			per_share_amount?: string
+		}
+		/**
+		 * ActivityType
+		 * @description - FILL
+		 *       Order fills (both partial and full fills)
+		 *
+		 *     - TRANS
+		 *       Cash transactions (both CSD and CSW)
+		 *
+		 *     - MISC
+		 *       Miscellaneous or rarely used activity types (All types except those in TRANS, DIV, or FILL)
+		 *
+		 *     - ACATC
+		 *       ACATS IN/OUT (Cash)
+		 *
+		 *     - ACATS
+		 *       ACATS IN/OUT (Securities)
+		 *
+		 *     - CFEE
+		 *       Crypto fee
+		 *
+		 *     - CSD
+		 *       Cash deposit(+)
+		 *
+		 *     - CSW
+		 *       Cash withdrawal(-)
+		 *
+		 *     - DIV
+		 *       Dividends
+		 *
+		 *     - DIVCGL
+		 *       Dividend (capital gain long term)
+		 *
+		 *     - DIVCGS
+		 *       Dividend (capital gain short term)
+		 *
+		 *     - DIVFEE
+		 *       Dividend fee
+		 *
+		 *     - DIVFT
+		 *       Dividend adjusted (Foreign Tax Withheld)
+		 *
+		 *     - DIVNRA
+		 *       Dividend adjusted (NRA Withheld)
+		 *
+		 *     - DIVROC
+		 *       Dividend return of capital
+		 *
+		 *     - DIVTW
+		 *       Dividend adjusted (Tefra Withheld)
+		 *
+		 *     - DIVTXEX
+		 *       Dividend (tax exempt)
+		 *
+		 *     - FEE
+		 *       Fee denominated in USD
+		 *
+		 *     - INT
+		 *       Interest (credit/margin)
+		 *
+		 *     - INTNRA
+		 *       Interest adjusted (NRA Withheld)
+		 *
+		 *     - INTTW
+		 *       Interest adjusted (Tefra Withheld)
+		 *
+		 *     - JNL
+		 *       Journal entry
+		 *
+		 *     - JNLC
+		 *       Journal entry (cash)
+		 *
+		 *     - JNLS
+		 *       Journal entry (stock)
+		 *
+		 *     - MA
+		 *       Merger/Acquisition
+		 *
+		 *     - NC
+		 *       Name change
+		 *
+		 *     - OPASN
+		 *       Option assignment
+		 *
+		 *     - OPEXP
+		 *       Option expiration
+		 *
+		 *     - OPXRC
+		 *       Option exercise
+		 *
+		 *     - PTC
+		 *       Pass Thru Charge
+		 *
+		 *     - PTR
+		 *       Pass Thru Rebate
+		 *
+		 *     - REORG
+		 *       Reorg CA
+		 *
+		 *     - SC
+		 *       Symbol change
+		 *
+		 *     - SSO
+		 *       Stock spinoff
+		 *
+		 *     - SSP
+		 *       Stock split
+		 * @enum {string}
+		 */
+		ActivityType:
+			| "FILL"
+			| "TRANS"
+			| "MISC"
+			| "ACATC"
+			| "ACATS"
+			| "CSD"
+			| "CSW"
+			| "DIV"
+			| "DIVCGL"
+			| "DIVCGS"
+			| "DIVFEE"
+			| "DIVFT"
+			| "DIVNRA"
+			| "DIVROC"
+			| "DIVTW"
+			| "DIVTXEX"
+			| "INT"
+			| "INTNRA"
+			| "INTTW"
+			| "JNL"
+			| "JNLC"
+			| "JNLS"
+			| "MA"
+			| "NC"
+			| "OPASN"
+			| "OPEXP"
+			| "OPXRC"
+			| "PTC"
+			| "PTR"
+			| "REORG"
+			| "SC"
+			| "SSO"
+			| "SSP"
+			| "CFEE"
+			| "FEE"
+		/**
+		 * Order
+		 * @description The Orders API allows a user to monitor, place and cancel their orders with Alpaca.
+		 *
+		 *     Each order has a unique identifier provided by the client. This client-side unique order ID will be automatically generated by the system if not provided by the client, and will be returned as part of the order object along with the rest of the fields described below. Once an order is placed, it can be queried using the client-side order ID to check the status.
+		 *
+		 *     Updates on open orders at Alpaca will also be sent over the streaming interface, which is the recommended method of maintaining order state.
+		 */
+		Order: {
+			/** @description Order ID */
+			id?: string
+			/** @description Client unique order ID */
+			client_order_id?: string
+			/** Format: date-time */
+			created_at?: string
+			/** Format: date-time */
+			updated_at?: string | null
+			/** Format: date-time */
+			submitted_at?: string | null
+			/** Format: date-time */
+			filled_at?: string | null
+			/** Format: date-time */
+			expired_at?: string | null
+			/** Format: date-time */
+			canceled_at?: string | null
+			/** Format: date-time */
+			failed_at?: string | null
+			/** Format: date-time */
+			replaced_at?: string | null
+			/**
+			 * Format: uuid
+			 * @description The order ID that this order was replaced by
+			 */
+			replaced_by?: string | null
+			/**
+			 * Format: uuid
+			 * @description The order ID that this order replaces
+			 */
+			replaces?: string | null
+			/**
+			 * Format: uuid
+			 * @description Asset ID
+			 */
+			asset_id?: string
+			/** @description Asset symbol */
+			symbol: string
+			asset_class?: components["schemas"]["AssetClass"]
+			/** @description Ordered notional amount. If entered, qty will be null. Can take up to 9 decimal points. */
+			notional: string | null
+			/** @description Ordered quantity. If entered, notional will be null. Can take up to 9 decimal points. */
+			qty: string | null
+			/** @description Filled quantity */
+			filled_qty?: string
+			/** @description Filled average price */
+			filled_avg_price?: string | null
+			order_class?: components["schemas"]["OrderClass"]
+			/**
+			 * @deprecated
+			 * @description Deprecated in favour of the field "type"
+			 */
+			order_type?: string
+			type: components["schemas"]["OrderType"]
+			side: components["schemas"]["OrderSide"]
+			time_in_force: components["schemas"]["TimeInForce"]
+			/** @description Limit price */
+			limit_price?: string | null
+			/** @description Stop price */
+			stop_price?: string | null
+			status?: components["schemas"]["OrderStatus"]
+			/** @description If true, eligible for execution outside regular trading hours. */
+			extended_hours?: boolean
+			/** @description When querying non-simple order_class orders in a nested style, an array of Order entities associated with this order. Otherwise, null. */
+			legs?: components["schemas"]["Order"][] | null
+			/** @description The percent value away from the high water mark for trailing stop orders. */
+			trail_percent?: string
+			/** @description The dollar value away from the high water mark for trailing stop orders. */
+			trail_price?: string
+			/** @description The highest (lowest) market price seen since the trailing stop order was submitted. */
+			hwm?: string
+		}
+		/**
+		 * OrderType
+		 * @description Represents the types of orders Alpaca currently supports
+		 *
+		 *     - market
+		 *     - limit
+		 *     - stop
+		 *     - stop_limit
+		 *     - trailing_stop
+		 * @example stop
+		 * @enum {string}
+		 */
+		OrderType: "market" | "limit" | "stop" | "stop_limit" | "trailing_stop"
+		/**
+		 * OrderSide
+		 * @description Represents which side this order was on:
+		 *
+		 *     - buy
+		 *     - sell
+		 * @example buy
+		 * @enum {string}
+		 */
+		OrderSide: "buy" | "sell"
+		/**
+		 * OrderClass
+		 * @description This will either be the empty string "", "simple", "bracket", "oco", or "oto".
+		 * @example bracket
+		 * @enum {string}
+		 */
+		OrderClass: "simple" | "bracket" | "oco" | "oto" | ""
+		/**
+		 * OrderStatus
+		 * @description An order executed through Alpaca can experience several status changes during its lifecycle. The most common statuses are described in detail below:
+		 *
+		 *     - new
+		 *       The order has been received by Alpaca, and routed to exchanges for execution. This is the usual initial state of an order.
+		 *
+		 *     - partially_filled
+		 *       The order has been partially filled.
+		 *
+		 *     - filled
+		 *       The order has been filled, and no further updates will occur for the order.
+		 *
+		 *     - done_for_day
+		 *       The order is done executing for the day, and will not receive further updates until the next trading day.
+		 *
+		 *     - canceled
+		 *       The order has been canceled, and no further updates will occur for the order. This can be either due to a cancel request by the user, or the order has been canceled by the exchanges due to its time-in-force.
+		 *
+		 *     - expired
+		 *       The order has expired, and no further updates will occur for the order.
+		 *
+		 *     - replaced
+		 *       The order was replaced by another order, or was updated due to a market event such as corporate action.
+		 *
+		 *     - pending_cancel
+		 *       The order is waiting to be canceled.
+		 *
+		 *     - pending_replace
+		 *       The order is waiting to be replaced by another order. The order will reject cancel request while in this state.
+		 *
+		 *     Less common states are described below. Note that these states only occur on very rare occasions, and most users will likely never see their orders reach these states:
+		 *
+		 *     - accepted
+		 *       The order has been received by Alpaca, but hasn’t yet been routed to the execution venue. This could be seen often out side of trading session hours.
+		 *
+		 *     - pending_new
+		 *       The order has been received by Alpaca, and routed to the exchanges, but has not yet been accepted for execution. This state only occurs on rare occasions.
+		 *
+		 *     - accepted_for_bidding
+		 *       The order has been received by exchanges, and is evaluated for pricing. This state only occurs on rare occasions.
+		 *
+		 *     - stopped
+		 *       The order has been stopped, and a trade is guaranteed for the order, usually at a stated price or better, but has not yet occurred. This state only occurs on rare occasions.
+		 *
+		 *     - rejected
+		 *       The order has been rejected, and no further updates will occur for the order. This state occurs on rare occasions and may occur based on various conditions decided by the exchanges.
+		 *
+		 *     - suspended
+		 *       The order has been suspended, and is not eligible for trading. This state only occurs on rare occasions.
+		 *
+		 *     - calculated
+		 *       The order has been completed for the day (either filled or done for day), but remaining settlement calculations are still pending. This state only occurs on rare occasions.
+		 *
+		 *
+		 *     An order may be canceled through the API up until the point it reaches a state of either filled, canceled, or expired.
+		 * @example new
+		 * @enum {string}
+		 */
+		OrderStatus:
+			| "new"
+			| "partially_filled"
+			| "filled"
+			| "done_for_day"
+			| "canceled"
+			| "expired"
+			| "replaced"
+			| "pending_cancel"
+			| "pending_replace"
+			| "accepted"
+			| "pending_new"
+			| "accepted_for_bidding"
+			| "stopped"
+			| "rejected"
+			| "suspended"
+			| "calculated"
+		/**
+		 * TimeInForce
+		 * @description Note: For Crypto Trading, Alpaca supports the following Time-In-Force designations: day, gtc, ioc and fok. OPG and CLS are not supported.
+		 *
+		 *     Alpaca supports the following Time-In-Force designations:
+		 *
+		 *     - day
+		 *       A day order is eligible for execution only on the day it is live. By default, the order is only valid during Regular Trading Hours (9:30am - 4:00pm ET). If unfilled after the closing auction, it is automatically canceled. If submitted after the close, it is queued and submitted the following trading day. However, if marked as eligible for extended hours, the order can also execute during supported extended hours.
+		 *
+		 *     - gtc
+		 *       The order is good until canceled. Non-marketable GTC limit orders are subject to price adjustments to offset corporate actions affecting the issue. We do not currently support Do Not Reduce(DNR) orders to opt out of such price adjustments.
+		 *
+		 *     - opg
+		 *       Use this TIF with a market/limit order type to submit “market on open” (MOO) and “limit on open” (LOO) orders. This order is eligible to execute only in the market opening auction. Any unfilled orders after the open will be cancelled. OPG orders submitted after 9:28am but before 7:00pm ET will be rejected. OPG orders submitted after 7:00pm will be queued and routed to the following day’s opening auction. On open/on close orders are routed to the primary exchange. Such orders do not necessarily execute exactly at 9:30am / 4:00pm ET but execute per the exchange’s auction rules.
+		 *
+		 *     - cls
+		 *       Use this TIF with a market/limit order type to submit “market on close” (MOC) and “limit on close” (LOC) orders. This order is eligible to execute only in the market closing auction. Any unfilled orders after the close will be cancelled. CLS orders submitted after 3:50pm but before 7:00pm ET will be rejected. CLS orders submitted after 7:00pm will be queued and routed to the following day’s closing auction. Only available with API v2.
+		 *
+		 *     - ioc
+		 *       An Immediate Or Cancel (IOC) order requires all or part of the order to be executed immediately. Any unfilled portion of the order is canceled. Only available with API v2. Most market makers who receive IOC orders will attempt to fill the order on a principal basis only, and cancel any unfilled balance. On occasion, this can result in the entire order being cancelled if the market maker does not have any existing inventory of the security in question.
+		 *
+		 *     - fok
+		 *       A Fill or Kill (FOK) order is only executed if the entire order quantity can be filled, otherwise the order is canceled. Only available with API v2.
+		 * @example day
+		 * @enum {string}
+		 */
+		TimeInForce: "day" | "gtc" | "opg" | "cls" | "ioc" | "fok"
+		/**
+		 * Assets
+		 * @description The assets API serves as the master list of assets available for trade and data consumption from Alpaca. Assets are sorted by asset class, exchange and symbol. Some assets are only available for data consumption via Polygon, and are not tradable with Alpaca. These assets will be marked with the flag tradable=false.
+		 *
+		 */
+		Assets: {
+			/**
+			 * Format: uuid
+			 * @description Asset ID
+			 */
+			id: string
+			class: components["schemas"]["AssetClass"]
+			exchange: components["schemas"]["Exchange"]
+			/**
+			 * @description The symbol of the asset
+			 * @example AAPL
+			 */
+			symbol: string
+			/** @description The official name of the asset */
+			name: string
+			/**
+			 * @description active or inactive
+			 * @example active
+			 * @enum {string}
+			 */
+			status: "active" | "inactive"
+			/** @description Asset is tradable on Alpaca or not */
+			tradable: boolean
+			/** @description Asset is marginable or not */
+			marginable: boolean
+			/** @description Asset is shortable or not */
+			shortable: boolean
+			/** @description Asset is easy-to-borrow or not (filtering for easy_to_borrow = True is the best way to check whether the name is currently available to short at Alpaca). */
+			easy_to_borrow: boolean
+			/** @description Asset is fractionable or not */
+			fractionable: boolean
+		}
+		/**
+		 * AssetClass
+		 * @description Represents what class of asset this is. Currently only supports `us_equity` or `crypto`
+		 * @example us_equity
+		 * @enum {string}
+		 */
+		AssetClass: "us_equity" | "crypto"
+		/**
+		 * Position
+		 * @description The positions API provides information about an account’s current open positions. The response will include information such as cost basis, shares traded, and market value, which will be updated live as price information is updated. Once a position is closed, it will no longer be queryable through this API.
+		 */
+		Position: {
+			/**
+			 * Format: uuid
+			 * @description Asset ID
+			 */
+			asset_id: string
+			/**
+			 * @description Symbol name of the asset
+			 * @example AAPL
+			 */
+			symbol: string
+			exchange: components["schemas"]["Exchange"]
+			asset_class: components["schemas"]["AssetClass"]
+			/** @description Average entry price of the position */
+			avg_entry_price: string
+			/** @description The number of shares */
+			qty: string
+			/** @description Total number of shares available minus open orders */
+			qty_available?: string
+			/** @description “long” */
+			side: string
+			/** @description Total dollar amount of the position */
+			market_value: string
+			/** @description Total cost basis in dollar */
+			cost_basis: string
+			/** @description Unrealized profit/loss in dollars */
+			unrealized_pl: string
+			/** @description Unrealized profit/loss percent (by a factor of 1) */
+			unrealized_plpc: string
+			/** @description Unrealized profit/loss in dollars for the day */
+			unrealized_intraday_pl: string
+			/** @description Unrealized profit/loss percent (by a factor of 1) */
+			unrealized_intraday_plpc: string
+			/** @description Current asset price per share */
+			current_price: string
+			/** @description Last day’s asset price per share based on the closing value of the last trading day */
+			lastday_price: string
+			/** @description Percent change from last day price (by a factor of 1) */
+			change_today: string
+			asset_marginable: boolean
+		}
+		/**
+		 * Watchlist
+		 * @description The watchlist API provides CRUD operation for the account’s watchlist. An account can have multiple watchlists and each is uniquely identified by id but can also be addressed by user-defined name. Each watchlist is an ordered list of assets.
+		 *
+		 */
+		Watchlist: {
+			/**
+			 * Format: uuid
+			 * @description watchlist id
+			 */
+			id: string
+			/**
+			 * Format: uuid
+			 * @description account ID
+			 */
+			account_id: string
+			/** Format: date-time */
+			created_at: string
+			/** Format: date-time */
+			updated_at: string
+			/** @description user-defined watchlist name (up to 64 characters) */
+			name: string
+			/** @description the content of this watchlist, in the order as registered by the client */
+			assets?: components["schemas"]["Assets"][]
+		}
+		/** Calendar */
+		Calendar: {
+			/** @description Date string in “%Y-%m-%d” format */
+			date: string
+			/** @description The time the market opens at on this date in “%H:%M” format */
+			open: string
+			/** @description The time the market closes at on this date in “%H:%M” format */
+			close: string
+			session_open: string
+			session_close: string
+		}
+		/** Clock */
+		Clock: {
+			/**
+			 * Format: date-time
+			 * @description Current timestamp
+			 *
+			 */
+			timestamp?: string
+			/** @description Whether or not the market is open
+			 *      */
+			is_open?: boolean
+			/**
+			 * Format: date-time
+			 * @description Next Market open timestamp
+			 */
+			next_open?: string
+			/**
+			 * Format: date-time
+			 * @description Next market close timestamp
+			 */
+			next_close?: string
+		}
+		/** PortfolioHistory */
+		PortfolioHistory: {
+			/** @description time of each data element, left-labeled (the beginning of time window) */
+			timestamp?: number[]
+			/** @description equity value of the account in dollar amount as of the end of each time window */
+			equity?: number[]
+			/** @description profit/loss in dollar from the base value */
+			profit_loss?: number[]
+			/** @description profit/loss in percentage from the base value */
+			profit_loss_pct?: number[]
+			/** @description basis in dollar of the profit loss calculation */
+			base_value?: number
+			/**
+			 * @description time window size of each data element
+			 * @example 15Min
+			 */
+			timeframe?: string
+		}
+		/**
+		 * Exchange
+		 * @description Represents the current exchanges Alpaca supports. List is currently:
+		 *
+		 *     - AMEX
+		 *     - ARCA
+		 *     - BATS
+		 *     - NYSE
+		 *     - NASDAQ
+		 *     - NYSEARCA
+		 *     - OTC
+		 * @example NYSE
+		 * @enum {string}
+		 */
+		Exchange: "AMEX" | "ARCA" | "BATS" | "NYSE" | "NASDAQ" | "NYSEARCA" | "OTC"
+		/**
+		 * CanceledOrderResponse
+		 * @description Represents the result of a request to cancel and order
+		 */
+		CanceledOrderResponse: {
+			/**
+			 * Format: uuid
+			 * @description orderId
+			 */
+			id?: string
+			/**
+			 * @description http response code
+			 * @example 200
+			 */
+			status?: number
+		}
+		/**
+		 * PatchOrderRequest
+		 * @description Represents a request to patch an order.
+		 */
+		PatchOrderRequest: {
+			/** @description number of shares to trade */
+			qty?: string
+			time_in_force?: components["schemas"]["TimeInForce"]
+			/** @description required if original order type is limit or stop_limit */
+			limit_price?: string
+			/** @description required if original order type is limit or stop_limit */
+			stop_price?: string
+			/** @description the new value of the trail_price or trail_percent value (works only for type=“trailing_stop”) */
+			trail?: string
+			/** @description A unique identifier for the order. Automatically generated if not sent. */
+			client_order_id?: string
+		}
+		/**
+		 * PositionClosedReponse
+		 * @description Represents the result of asking the api to close a position.
+		 */
+		PositionClosedReponse: {
+			/** @description Symbol name of the asset */
+			symbol: string
+			/** @description Http status code for the attempt to close this position */
+			status: string
+			body?: components["schemas"]["Order"]
+		}
+		/**
+		 * PostWatchlistRequest
+		 * @description Request format used for creating a new watchlist or updating an existing watchlist with a set of assets and name.
+		 */
+		UpdateWatchlistRequest: {
+			name: string
+			symbols?: (string | null)[]
+		}
+		/**
+		 * AddAssetToWatchlistRequest
+		 * @description Append an asset for the symbol to the end of watchlist asset list
+		 */
+		AddAssetToWatchlistRequest: {
+			/**
+			 * @description symbol name to append to watchlist
+			 * @example AAPL
+			 */
+			symbol?: string
+		}
+	}
+	responses: never
+	parameters: never
+	requestBodies: never
+	headers: never
+	pathItems: never
+}
+export type $defs = Record<string, never>
+export interface operations {
+	getAccount: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description OK */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Account"]
+				}
+			}
+		}
+	}
+	getAllOrders: {
+		parameters: {
+			query?: {
+				/** @description Order status to be queried. open, closed or all. Defaults to open. */
+				status?: "open" | "closed" | "all"
+				/** @description The maximum number of orders in response. Defaults to 50 and max is 500. */
+				limit?: number
+				/** @description The response will include only ones submitted after this timestamp (exclusive.) */
+				after?: string
+				/** @description The response will include only ones submitted until this timestamp (exclusive.) */
+				until?: string
+				/** @description The chronological order of response based on the submission time. asc or desc. Defaults to desc. */
+				direction?: "asc" | "desc"
+				/** @description If true, the result will roll up multi-leg orders under the legs field of primary order. */
+				nested?: boolean
+				/** @description A comma-separated list of symbols to filter by (ex. “AAPL,TSLA,MSFT”). A currency pair is required for crypto orders (ex. “BTCUSD,BCHUSD,LTCUSD,ETCUSD”). */
+				symbols?: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response
+			 *
+			 *     An array of Order objects */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Order"][]
+				}
+			}
+		}
+	}
+	postOrder: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["Order"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Order"]
+				}
+			}
+			/** @description Forbidden
+			 *
+			 *     Buying power or shares is not sufficient. */
+			403: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+			/** @description Unprocessable
+			 *
+			 *     Input parameters are not recognized. */
+			422: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	deleteAllOrders: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Multi-Status with body.
+			 *
+			 *     an array of objects that include the order id and http status code for each status request. */
+			207: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["CanceledOrderResponse"][]
+				}
+			}
+			/** @description Failed to cancel order. */
+			500: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	getOrderByOrderID: {
+		parameters: {
+			query?: {
+				/** @description If true, the result will roll up multi-leg orders under the legs field of primary order. */
+				nested?: boolean
+			}
+			header?: never
+			path: {
+				/** @description order id */
+				order_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Order"]
+				}
+			}
+		}
+	}
+	deleteOrderByOrderID: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description order id */
+				order_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description No Content */
+			204: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+			/** @description The order status is not cancelable. */
+			422: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	patchOrderByOrderId: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description order id */
+				order_id: string
+			}
+			cookie?: never
+		}
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["PatchOrderRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response
+			 *
+			 *     The new Order object with the new order ID. */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Order"]
+				}
+			}
+		}
+	}
+	getAllOpenPositions: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Position"][]
+				}
+			}
+		}
+	}
+	deleteAllOpenPositions: {
+		parameters: {
+			query?: {
+				/** @description If true is specified, cancel all open orders before liquidating all positions. */
+				cancel_orders?: boolean
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Multi-Status with body.
+			 *
+			 *     an array of PositionClosed responses */
+			207: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["PositionClosedReponse"][]
+				}
+			}
+			/** @description Failed to liquidate */
+			500: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	getOpenPosition: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description symbol or assetId */
+				symbol_or_asset_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Position"]
+				}
+			}
+		}
+	}
+	deleteOpenPosition: {
+		parameters: {
+			query?: {
+				/** @description the number of shares to liquidate. Can accept up to 9 decimal points. Cannot work with percentage */
+				qty?: number
+				/** @description percentage of position to liquidate. Must be between 0 and 100. Would only sell fractional if position is originally fractional. Can accept up to 9 decimal points. Cannot work with qty */
+				percentage?: number
+			}
+			header?: never
+			path: {
+				/** @description symbol or assetId */
+				symbol_or_asset_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response
+			 *
+			 *     Returns the order created to close out this position */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Order"]
+				}
+			}
+		}
+	}
+	getAccountPortfolioHistory: {
+		parameters: {
+			query?: {
+				/** @description The duration of the data in <number> + <unit>, such as 1D, where <unit> can be D for day, W for week, M for month and A for year. Defaults to 1M. */
+				period?: string
+				/** @description The resolution of time window. 1Min, 5Min, 15Min, 1H, or 1D. If omitted, 1Min for less than 7 days period, 15Min for less than 30 days, or otherwise 1D. */
+				timeframe?: string
+				/** @description The date the data is returned up to, in “YYYY-MM-DD” format. Defaults to the current market date (rolls over at the market open if extended_hours is false, otherwise at 7am ET) */
+				date_end?: string
+				/** @description If true, include extended hours in the result. This is effective only for timeframe less than 1D. */
+				extended_hours?: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["PortfolioHistory"]
+				}
+			}
+		}
+	}
+	getWatchlists: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"][]
+				}
+			}
+		}
+	}
+	postWatchlist: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["UpdateWatchlistRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	getWatchlistById: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description watchlist id */
+				watchlist_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	updateWatchlistById: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description watchlist id */
+				watchlist_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["UpdateWatchlistRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	addAssetToWatchlist: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description watchlist id */
+				watchlist_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["AddAssetToWatchlistRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	deleteWatchlistById: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description watchlist id */
+				watchlist_id: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description No Content */
+			204: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	getWatchlistByName: {
+		parameters: {
+			query: {
+				/** @description name of the watchlist */
+				name: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	updateWatchlistByName: {
+		parameters: {
+			query: {
+				/** @description name of the watchlist */
+				name: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["UpdateWatchlistRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	addAssetToWatchlistByName: {
+		parameters: {
+			query: {
+				/** @description name of the watchlist */
+				name: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["AddAssetToWatchlistRequest"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	deleteWatchlistByName: {
+		parameters: {
+			query: {
+				/** @description name of the watchlist */
+				name: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description No Content */
+			204: {
+				headers: {
+					[name: string]: unknown
+				}
+				content?: never
+			}
+		}
+	}
+	removeAssetFromWatchlist: {
+		parameters: {
+			query?: never
+			header?: never
+			path: {
+				/** @description Watchlist ID */
+				watchlist_id: string
+				/** @description symbol name to remove from the watchlist content */
+				symbol: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Returns the updated watchlist */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Watchlist"]
+				}
+			}
+		}
+	}
+	getAccountConfig: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["AccountConfigurations"]
+				}
+			}
+		}
+	}
+	patchAccountConfig: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["AccountConfigurations"]
+			}
+		}
+		responses: {
+			/** @description Successful response */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["AccountConfigurations"]
+				}
+			}
+		}
+	}
+	getAccountActivities: {
+		parameters: {
+			query?: {
+				/** @description The date for which you want to see activities. */
+				date?: string
+				/** @description The response will contain only activities submitted before this date. (Cannot be used with date.) */
+				until?: string
+				/** @description The response will contain only activities submitted after this date. (Cannot be used with date.) */
+				after?: string
+				/** @description asc or desc (default desc if unspecified.) */
+				direction?: "asc" | "desc"
+				/** @description The maximum number of entries to return in the response. (See the section on paging above.) */
+				page_size?: number
+				/** @description The ID of the end of your current page of results.  */
+				page_token?: string
+				/** @description A comma-separated list of the activity types to include in the response. If unspecified, activities of all types will be returned. See ActivityType model for values */
+				activity_types?: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description returns an array of Account activities */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": (
+						| components["schemas"]["TradingActivities"]
+						| components["schemas"]["NonTradeActivities"]
+					)[]
+				}
+			}
+		}
+	}
+	getAccountActivitiesByActivityType: {
+		parameters: {
+			query?: {
+				/** @description The date for which you want to see activities. */
+				date?: string
+				/** @description The response will contain only activities submitted before this date. (Cannot be used with date.) */
+				until?: string
+				/** @description The response will contain only activities submitted after this date. (Cannot be used with date.) */
+				after?: string
+				/** @description asc or desc (default desc if unspecified.) */
+				direction?: "asc" | "desc"
+				/** @description The maximum number of entries to return in the response. (See the section on paging above.) */
+				page_size?: number
+				/** @description The ID of the end of your current page of results.  */
+				page_token?: string
+			}
+			header?: never
+			path: {
+				/** @description The activity type you want to view entries for. A list of valid activity types can be found at the bottom of this page. */
+				activity_type: string
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description returns an array of Account activities */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": (
+						| components["schemas"]["TradingActivities"]
+						| components["schemas"]["NonTradeActivities"]
+					)[]
+				}
+			}
+		}
+	}
+	getCalendar: {
+		parameters: {
+			query?: {
+				/** @description The first date to retrieve data for (inclusive) */
+				start?: string
+				/** @description The last date to retrieve data for (inclusive) */
+				end?: string
+			}
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description OK */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Calendar"][]
+				}
+			}
+		}
+	}
+	getClock: {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description OK */
+			200: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": components["schemas"]["Clock"]
+				}
+			}
+		}
+	}
+}
