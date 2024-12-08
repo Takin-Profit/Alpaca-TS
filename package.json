@@ -1,6 +1,6 @@
 {
   "name": "@takinprofit/alpaca-ts",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Type-safe Alpaca REST API client for TypeScript and Node.js",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -28,7 +28,7 @@
     "build": "npm-run-all generate build:pkg",
     "build:pkg": "pkgroll",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "pnpm openapi-typescript https://raw.githubusercontent.com/alpacahq/alpaca-docs/refs/heads/master/oas/trading/openapi.yaml -o src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
+    "generate": "pnpm openapi-typescript api.json -o src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
   },
   "keywords": [
     "alpaca",
