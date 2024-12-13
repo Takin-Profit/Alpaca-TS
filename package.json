@@ -25,10 +25,11 @@
     }
   },
   "scripts": {
-    "build": "npm-run-all generate build:pkg",
+    "build": "npm-run-all gen:data gen:index build:pkg",
     "build:pkg": "pkgroll",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "pnpm openapi-typescript api.json -o src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
+    "gen:data": "pnpm openapi-typescript data.yaml -o src/data.ts && pnpm biome lint --write ./src/data.ts && pnpm biome format --write ./src/data.ts",
+    "gen:index": "pnpm openapi-typescript api.json -o src/index.ts && echo \"import * as data from './data'; export { data };\" >> src/index.ts && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
   },
   "keywords": [
     "alpaca",
